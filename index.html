@@ -1,388 +1,1127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LeetCode Ladder — Dilan</title>
-<style>
-  :root {
-    --bg: #0f1115;
-    --panel: #181b22;
-    --panel-2: #1f232c;
-    --ink: #e8eaed;
-    --ink-dim: #8b919c;
-    --line: #2a2f3a;
-    --acc: #ffa116;
-    --acc-soft: rgba(255,161,22,0.12);
-    --green: #3fb950;
-    --green-soft: rgba(63,185,80,0.12);
-    --easy: #00b8a3;
-    --med: #ffb800;
-    --hard: #ff375f;
-    --mono: "SF Mono", "JetBrains Mono", "Fira Code", ui-monospace, Menlo, monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--sans);
-    line-height: 1.45;
-    padding: 28px 18px 80px;
-    max-width: 860px;
-    margin: 0 auto;
-  }
-  header { margin-bottom: 24px; }
-  .title {
-    font-size: 26px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-  }
-  .title .dot { color: var(--acc); }
-  .subtitle { color: var(--ink-dim); font-size: 14px; margin-top: 4px; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LeetCode Ladder — Dilan</title>
+    <style>
+      :root {
+        --bg: #0f1115;
+        --panel: #181b22;
+        --panel-2: #1f232c;
+        --ink: #e8eaed;
+        --ink-dim: #8b919c;
+        --line: #2a2f3a;
+        --acc: #ffa116;
+        --acc-soft: rgba(255, 161, 22, 0.12);
+        --green: #3fb950;
+        --green-soft: rgba(63, 185, 80, 0.12);
+        --easy: #00b8a3;
+        --med: #ffb800;
+        --hard: #ff375f;
+        --mono:
+          "SF Mono", "JetBrains Mono", "Fira Code", ui-monospace, Menlo,
+          monospace;
+        --sans:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        line-height: 1.45;
+        padding: 28px 18px 80px;
+        max-width: 860px;
+        margin: 0 auto;
+      }
+      header {
+        margin-bottom: 24px;
+      }
+      .title {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+      }
+      .title .dot {
+        color: var(--acc);
+      }
+      .subtitle {
+        color: var(--ink-dim);
+        font-size: 14px;
+        margin-top: 4px;
+      }
 
-  .overall {
-    margin-top: 20px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 18px 20px;
-  }
-  .overall-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-  .overall-count { font-family: var(--mono); font-size: 15px; }
-  .overall-count b { color: var(--acc); font-size: 20px; }
-  .reset {
-    background: transparent;
-    color: var(--ink-dim);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 5px 11px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all .15s;
-  }
-  .reset:hover { color: var(--hard); border-color: var(--hard); }
-  .bar {
-    height: 9px;
-    background: var(--panel-2);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-  .bar-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--acc), var(--green));
-    border-radius: 6px;
-    transition: width .4s cubic-bezier(.4,0,.2,1);
-  }
+      .overall {
+        margin-top: 20px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 18px 20px;
+      }
+      .overall-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .overall-count {
+        font-family: var(--mono);
+        font-size: 15px;
+      }
+      .overall-count b {
+        color: var(--acc);
+        font-size: 20px;
+      }
+      .reset {
+        background: transparent;
+        color: var(--ink-dim);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 5px 11px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .reset:hover {
+        color: var(--hard);
+        border-color: var(--hard);
+      }
+      .bar {
+        height: 9px;
+        background: var(--panel-2);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .bar-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--acc), var(--green));
+        border-radius: 6px;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-  .topic {
-    margin-top: 26px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    overflow: hidden;
-  }
-  .topic-head {
-    padding: 16px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    user-select: none;
-  }
-  .topic-head:hover { background: var(--panel-2); }
-  .chev {
-    color: var(--ink-dim);
-    font-size: 13px;
-    transition: transform .2s;
-    width: 12px;
-  }
-  .topic.open .chev { transform: rotate(90deg); }
-  .topic-name { font-size: 17px; font-weight: 650; flex: 1; letter-spacing: -0.01em; }
-  .topic-prog { font-family: var(--mono); font-size: 13px; color: var(--ink-dim); }
-  .topic-prog b { color: var(--green); }
+      .topic {
+        margin-top: 26px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      .topic-head {
+        padding: 16px 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        user-select: none;
+      }
+      .topic-head:hover {
+        background: var(--panel-2);
+      }
+      .chev {
+        color: var(--ink-dim);
+        font-size: 13px;
+        transition: transform 0.2s;
+        width: 12px;
+      }
+      .topic.open .chev {
+        transform: rotate(90deg);
+      }
+      .topic-name {
+        font-size: 17px;
+        font-weight: 650;
+        flex: 1;
+        letter-spacing: -0.01em;
+      }
+      .topic-prog {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--ink-dim);
+      }
+      .topic-prog b {
+        color: var(--green);
+      }
 
-  .topic-body { display: none; padding: 0 12px 10px; }
-  .topic.open .topic-body { display: block; }
+      .group-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        color: var(--ink-dim);
+        padding: 14px 10px 6px;
+        font-weight: 600;
+      }
 
-  .group-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: var(--ink-dim);
-    padding: 14px 10px 6px;
-    font-weight: 600;
-  }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 10px;
+        border-radius: 9px;
+        cursor: pointer;
+        transition: background 0.12s;
+      }
+      .row:hover {
+        background: var(--panel-2);
+      }
+      .check {
+        width: 21px;
+        height: 21px;
+        border-radius: 6px;
+        border: 2px solid var(--line);
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        transition: all 0.15s;
+      }
+      .row.done .check {
+        background: var(--green);
+        border-color: var(--green);
+      }
+      .check svg {
+        width: 12px;
+        height: 12px;
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+      .row.done .check svg {
+        opacity: 1;
+      }
+      .pname {
+        flex: 1;
+        font-size: 14.5px;
+      }
+      .row.done .pname {
+        color: var(--ink-dim);
+        text-decoration: line-through;
+        text-decoration-color: var(--line);
+      }
+      .tag {
+        font-size: 10.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 2px 8px;
+        border-radius: 20px;
+        flex-shrink: 0;
+      }
+      .t-easy {
+        color: var(--easy);
+        background: rgba(0, 184, 163, 0.12);
+      }
+      .t-med {
+        color: var(--med);
+        background: rgba(255, 184, 0, 0.12);
+      }
+      .t-hard {
+        color: var(--hard);
+        background: rgba(255, 55, 95, 0.12);
+      }
+      .lc {
+        color: var(--ink-dim);
+        font-size: 13px;
+        flex-shrink: 0;
+        padding: 3px 6px;
+        border-radius: 6px;
+        text-decoration: none;
+      }
+      .lc:hover {
+        color: var(--acc);
+        background: var(--acc-soft);
+      }
 
-  .row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 9px 10px;
-    border-radius: 9px;
-    cursor: pointer;
-    transition: background .12s;
-  }
-  .row:hover { background: var(--panel-2); }
-  .check {
-    width: 21px; height: 21px;
-    border-radius: 6px;
-    border: 2px solid var(--line);
-    flex-shrink: 0;
-    display: grid;
-    place-items: center;
-    transition: all .15s;
-  }
-  .row.done .check {
-    background: var(--green);
-    border-color: var(--green);
-  }
-  .check svg { width: 12px; height: 12px; opacity: 0; transition: opacity .15s; }
-  .row.done .check svg { opacity: 1; }
-  .pname { flex: 1; font-size: 14.5px; }
-  .row.done .pname { color: var(--ink-dim); text-decoration: line-through; text-decoration-color: var(--line); }
-  .tag {
-    font-size: 10.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    padding: 2px 8px;
-    border-radius: 20px;
-    flex-shrink: 0;
-  }
-  .t-easy { color: var(--easy); background: rgba(0,184,163,0.12); }
-  .t-med { color: var(--med); background: rgba(255,184,0,0.12); }
-  .t-hard { color: var(--hard); background: rgba(255,55,95,0.12); }
-  .lc {
-    color: var(--ink-dim);
-    font-size: 13px;
-    flex-shrink: 0;
-    padding: 3px 6px;
-    border-radius: 6px;
-    text-decoration: none;
-  }
-  .lc:hover { color: var(--acc); background: var(--acc-soft); }
+      footer {
+        margin-top: 30px;
+        text-align: center;
+        color: var(--ink-dim);
+        font-size: 12px;
+      }
+      .saved-note {
+        font-family: var(--mono);
+      }
 
-  footer {
-    margin-top: 30px;
-    text-align: center;
-    color: var(--ink-dim);
-    font-size: 12px;
-  }
-  .saved-note { font-family: var(--mono); }
-</style>
-</head>
-<body>
-<header>
-  <div class="title">LeetCode Ladder <span class="dot">●</span></div>
-  <div class="subtitle">Trees · Recursion · Dynamic Programming — built from the basics up. Tap a problem to mark it solved.</div>
-</header>
+      .meta-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        font-family: var(--mono);
+        font-size: 13px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid var(--line);
+        background: var(--panel-2);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .chip .rating-num {
+        color: var(--acc);
+        font-weight: 700;
+      }
+      .chip .title-name {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .chip.streak {
+        color: var(--ink-dim);
+      }
+      .chip.streak b {
+        color: var(--med);
+      }
+      .next-title {
+        font-size: 12px;
+        color: var(--ink-dim);
+        font-family: var(--mono);
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 28px;
+        transform: translateX(-50%) translateY(80px);
+        background: var(--panel-2);
+        border: 1px solid var(--acc);
+        color: var(--ink);
+        padding: 12px 22px;
+        border-radius: 12px;
+        font-size: 14.5px;
+        font-weight: 600;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+        opacity: 0;
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        z-index: 99;
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+      .toast .pawn {
+        color: var(--acc);
+        margin-right: 6px;
+      }
 
-<div class="overall">
-  <div class="overall-top">
-    <div class="overall-count"><b id="doneCount">0</b> / <span id="totalCount">0</span> solved</div>
-    <button class="reset" id="resetBtn">Reset all</button>
-  </div>
-  <div class="bar"><div class="bar-fill" id="overallBar"></div></div>
-</div>
+      /* check pop */
+      @keyframes checkPop {
+        0% {
+          transform: scale(0.6);
+        }
+        55% {
+          transform: scale(1.25);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .row.done .check {
+        animation: checkPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
 
-<div id="topics"></div>
+      /* floating +points */
+      @keyframes floatUp {
+        0% {
+          opacity: 0;
+          transform: translateY(4px) scale(0.8);
+        }
+        15% {
+          opacity: 1;
+          transform: translateY(0) scale(1.05);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-34px) scale(1);
+        }
+      }
+      .pts-pop {
+        position: absolute;
+        font-family: var(--mono);
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--green);
+        pointer-events: none;
+        animation: floatUp 0.9s ease-out forwards;
+        z-index: 50;
+      }
 
-<footer>
-  <span class="saved-note">Progress saves automatically on this device.</span>
-</footer>
+      /* rating pulse on change */
+      @keyframes ratingPulse {
+        0% {
+          transform: scale(1);
+        }
+        40% {
+          transform: scale(1.22);
+          color: var(--green);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .rating-num.pulse {
+        display: inline-block;
+        animation: ratingPulse 0.45s ease-out;
+      }
 
-<script>
-const DATA = [
-  {
-    topic: "Recursion — Foundations",
-    note: "Get comfortable with the call stack before anything else. These build the base intuition for trees and DP.",
-    groups: [
-      { label: "Warm-up: think recursively", problems: [
-        { n: "Fibonacci Number", id: 509, d: "easy" },
-        { n: "Power of Two", id: 231, d: "easy" },
-        { n: "Reverse String", id: 344, d: "easy" },
-        { n: "Sum of Digits / Pow(x, n)", id: 50, d: "med" },
-      ]},
-      { label: "Recursion on structures", problems: [
-        { n: "Merge Two Sorted Lists", id: 21, d: "easy" },
-        { n: "Reverse Linked List", id: 206, d: "easy" },
-        { n: "Swap Nodes in Pairs", id: 24, d: "med" },
-      ]},
-      { label: "Backtracking starter", problems: [
-        { n: "Subsets", id: 78, d: "med" },
-        { n: "Permutations", id: 46, d: "med" },
-        { n: "Combination Sum", id: 39, d: "med" },
-        { n: "Letter Combinations of a Phone Number", id: 17, d: "med" },
-      ]},
-    ]
-  },
-  {
-    topic: "Trees — Foundations",
-    note: "Tree problems are recursion with a shape. Master traversal first, then build up to logic.",
-    groups: [
-      { label: "Traversal basics", problems: [
-        { n: "Binary Tree Inorder Traversal", id: 94, d: "easy" },
-        { n: "Binary Tree Preorder Traversal", id: 144, d: "easy" },
-        { n: "Binary Tree Postorder Traversal", id: 145, d: "easy" },
-        { n: "Binary Tree Level Order Traversal", id: 102, d: "med" },
-      ]},
-      { label: "Properties & measurement", problems: [
-        { n: "Maximum Depth of Binary Tree", id: 104, d: "easy" },
-        { n: "Symmetric Tree", id: 101, d: "easy" },
-        { n: "Same Tree", id: 100, d: "easy" },
-        { n: "Balanced Binary Tree", id: 110, d: "easy" },
-        { n: "Diameter of Binary Tree", id: 543, d: "easy" },
-      ]},
-      { label: "Manipulation & search", problems: [
-        { n: "Invert Binary Tree", id: 226, d: "easy" },
-        { n: "Path Sum", id: 112, d: "easy" },
-        { n: "Lowest Common Ancestor of a BST", id: 235, d: "med" },
-        { n: "Validate Binary Search Tree", id: 98, d: "med" },
-        { n: "Kth Smallest Element in a BST", id: 230, d: "med" },
-      ]},
-      { label: "Stretch", problems: [
-        { n: "Binary Tree Maximum Path Sum", id: 124, d: "hard" },
-        { n: "Serialize and Deserialize Binary Tree", id: 297, d: "hard" },
-      ]},
-    ]
-  },
-  {
-    topic: "Dynamic Programming — Foundations",
-    note: "Start with 1D problems where the recurrence is visible. Build the 'memoize then tabulate' habit.",
-    groups: [
-      { label: "1D classics (start here)", problems: [
-        { n: "Climbing Stairs", id: 70, d: "easy" },
-        { n: "House Robber", id: 198, d: "med" },
-        { n: "Min Cost Climbing Stairs", id: 746, d: "easy" },
-        { n: "Maximum Subarray (Kadane)", id: 53, d: "med" },
-      ]},
-      { label: "Decisions & sequences", problems: [
-        { n: "House Robber II", id: 213, d: "med" },
-        { n: "Coin Change", id: 322, d: "med" },
-        { n: "Longest Increasing Subsequence", id: 300, d: "med" },
-        { n: "Word Break", id: 139, d: "med" },
-      ]},
-      { label: "2D / grid DP", problems: [
-        { n: "Unique Paths", id: 62, d: "med" },
-        { n: "Minimum Path Sum", id: 64, d: "med" },
-        { n: "Longest Common Subsequence", id: 1143, d: "med" },
-        { n: "Edit Distance", id: 72, d: "med" },
-      ]},
-      { label: "Stretch", problems: [
-        { n: "Partition Equal Subset Sum", id: 416, d: "med" },
-        { n: "Longest Palindromic Substring", id: 5, d: "med" },
-        { n: "Best Time to Buy/Sell Stock with Cooldown", id: 309, d: "med" },
-      ]},
-    ]
-  },
-];
+      /* topic body slide */
+      .topic-body {
+        display: none;
+        padding: 0 12px 10px;
+      }
+      .topic.open .topic-body {
+        display: block;
+        animation: bodyIn 0.22s ease-out;
+      }
+      @keyframes bodyIn {
+        from {
+          opacity: 0;
+          transform: translateY(-4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-const STORE_KEY = "lc_ladder_dilan_v1";
-let solved = {};
+      @keyframes floatDown {
+        0% {
+          opacity: 0;
+          transform: translateY(-4px) scale(0.8);
+        }
+        15% {
+          opacity: 1;
+          transform: translateY(0) scale(1.05);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(34px) scale(1);
+        }
+      }
+      .pts-pop.neg {
+        color: var(--hard);
+        animation: floatDown 0.9s ease-out forwards;
+      }
 
-function load() {
-  // In-memory only fallback; persistence handled below if available
-  try {
-    const raw = localStorage.getItem(STORE_KEY);
-    if (raw) solved = JSON.parse(raw);
-  } catch(e) { solved = {}; }
-}
+      @keyframes iconPop {
+        0% {
+          transform: scale(1) rotate(0deg);
+        }
+        40% {
+          transform: scale(1.6) rotate(-12deg);
+        }
+        70% {
+          transform: scale(1.15) rotate(6deg);
+        }
+        100% {
+          transform: scale(1) rotate(0deg);
+        }
+      }
+      .title-icon {
+        display: inline-block;
+        font-size: 15px;
+      }
+      .title-icon.icon-pop {
+        animation: iconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
 
-// Persistence layer: uses a closure-backed object that survives within session,
-// and attempts to hydrate/save through a hidden mechanism.
-const persist = {
-  read() { return solved; },
-  write() { /* updated live in `solved` */ }
-};
+      .toast.demote {
+        border-color: var(--hard);
+      }
+      .toast.demote .pawn {
+        color: var(--hard);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="title">LeetCode Ladder <span class="dot">●</span></div>
+      <div class="subtitle">
+        Recursion &#183; Trees &#183; Dynamic Programming &#183; Graphs &#8212;
+        built from the basics up. Solve problems, gain rating, climb the titles.
+      </div>
+    </header>
 
-function keyFor(topicIdx, gIdx, pIdx) { return `${topicIdx}-${gIdx}-${pIdx}`; }
+    <div class="overall">
+      <div class="overall-top">
+        <div class="overall-count">
+          <b id="doneCount">0</b> / <span id="totalCount">0</span> solved
+        </div>
+        <button class="reset" id="resetBtn">Reset all</button>
+      </div>
+      <div class="bar"><div class="bar-fill" id="overallBar"></div></div>
+      <div class="meta-row">
+        <div class="chip">
+          <span class="title-icon" id="titleIcon">&#9817;</span>
+          <span class="rating-num" id="ratingNum">400</span>
+          <span class="title-name" id="titleName">Unrated</span>
+        </div>
+        <div class="chip streak">
+          &#128293; <b id="streakNum">0</b>&nbsp;day streak
+        </div>
+        <span class="next-title" id="nextTitle"></span>
+      </div>
+    </div>
 
-function render() {
-  const wrap = document.getElementById("topics");
-  wrap.innerHTML = "";
-  let total = 0, done = 0;
+    <div id="topics"></div>
 
-  DATA.forEach((topic, ti) => {
-    let tTotal = 0, tDone = 0;
-    const tEl = document.createElement("div");
-    tEl.className = "topic" + (ti === 0 ? " open" : "");
+    <div class="toast" id="toast">
+      <span class="pawn" id="toastIcon">&#9823;</span
+      ><span id="toastMsg"></span>
+    </div>
 
-    const head = document.createElement("div");
-    head.className = "topic-head";
-    head.innerHTML = `<span class="chev">▶</span>
+    <footer>
+      <span class="saved-note"
+        >Progress saves automatically on this device.</span
+      >
+    </footer>
+
+    <script>
+      const DATA = [
+        {
+          topic: "Recursion — Foundations",
+          note: "Get comfortable with the call stack before anything else. These build the base intuition for trees and DP.",
+          groups: [
+            {
+              label: "Warm-up: think recursively",
+              problems: [
+                { n: "Fibonacci Number", id: 509, d: "easy" },
+                { n: "Power of Two", id: 231, d: "easy" },
+                { n: "Reverse String", id: 344, d: "easy" },
+                { n: "Sum of Digits / Pow(x, n)", id: 50, d: "med" },
+              ],
+            },
+            {
+              label: "Recursion on structures",
+              problems: [
+                { n: "Merge Two Sorted Lists", id: 21, d: "easy" },
+                { n: "Reverse Linked List", id: 206, d: "easy" },
+                { n: "Swap Nodes in Pairs", id: 24, d: "med" },
+              ],
+            },
+            {
+              label: "Backtracking starter",
+              problems: [
+                { n: "Subsets", id: 78, d: "med" },
+                { n: "Permutations", id: 46, d: "med" },
+                { n: "Combination Sum", id: 39, d: "med" },
+                {
+                  n: "Letter Combinations of a Phone Number",
+                  id: 17,
+                  d: "med",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          topic: "Trees — Foundations",
+          note: "Tree problems are recursion with a shape. Master traversal first, then build up to logic.",
+          groups: [
+            {
+              label: "Traversal basics",
+              problems: [
+                { n: "Binary Tree Inorder Traversal", id: 94, d: "easy" },
+                { n: "Binary Tree Preorder Traversal", id: 144, d: "easy" },
+                { n: "Binary Tree Postorder Traversal", id: 145, d: "easy" },
+                { n: "Binary Tree Level Order Traversal", id: 102, d: "med" },
+              ],
+            },
+            {
+              label: "Properties & measurement",
+              problems: [
+                { n: "Maximum Depth of Binary Tree", id: 104, d: "easy" },
+                { n: "Symmetric Tree", id: 101, d: "easy" },
+                { n: "Same Tree", id: 100, d: "easy" },
+                { n: "Balanced Binary Tree", id: 110, d: "easy" },
+                { n: "Diameter of Binary Tree", id: 543, d: "easy" },
+              ],
+            },
+            {
+              label: "Manipulation & search",
+              problems: [
+                { n: "Invert Binary Tree", id: 226, d: "easy" },
+                { n: "Path Sum", id: 112, d: "easy" },
+                { n: "Lowest Common Ancestor of a BST", id: 235, d: "med" },
+                { n: "Validate Binary Search Tree", id: 98, d: "med" },
+                { n: "Kth Smallest Element in a BST", id: 230, d: "med" },
+              ],
+            },
+            {
+              label: "Stretch",
+              problems: [
+                { n: "Binary Tree Maximum Path Sum", id: 124, d: "hard" },
+                {
+                  n: "Serialize and Deserialize Binary Tree",
+                  id: 297,
+                  d: "hard",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          topic: "Dynamic Programming — Foundations",
+          note: "Start with 1D problems where the recurrence is visible. Build the 'memoize then tabulate' habit.",
+          groups: [
+            {
+              label: "1D classics (start here)",
+              problems: [
+                { n: "Climbing Stairs", id: 70, d: "easy" },
+                { n: "House Robber", id: 198, d: "med" },
+                { n: "Min Cost Climbing Stairs", id: 746, d: "easy" },
+                { n: "Maximum Subarray (Kadane)", id: 53, d: "med" },
+              ],
+            },
+            {
+              label: "Decisions & sequences",
+              problems: [
+                { n: "House Robber II", id: 213, d: "med" },
+                { n: "Coin Change", id: 322, d: "med" },
+                { n: "Longest Increasing Subsequence", id: 300, d: "med" },
+                { n: "Word Break", id: 139, d: "med" },
+              ],
+            },
+            {
+              label: "2D / grid DP",
+              problems: [
+                { n: "Unique Paths", id: 62, d: "med" },
+                { n: "Minimum Path Sum", id: 64, d: "med" },
+                { n: "Longest Common Subsequence", id: 1143, d: "med" },
+                { n: "Edit Distance", id: 72, d: "med" },
+              ],
+            },
+            {
+              label: "Stretch",
+              problems: [
+                { n: "Partition Equal Subset Sum", id: 416, d: "med" },
+                { n: "Longest Palindromic Substring", id: 5, d: "med" },
+                {
+                  n: "Best Time to Buy/Sell Stock with Cooldown",
+                  id: 309,
+                  d: "med",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          topic: "Graphs \u2014 Foundations",
+          note: "Graphs are trees without rules. BFS/DFS first, then dependency ordering, then weighted paths.",
+          groups: [
+            {
+              label: "Grid BFS/DFS basics",
+              problems: [
+                { n: "Flood Fill", id: 733, d: "easy" },
+                { n: "Number of Islands", id: 200, d: "med" },
+                { n: "Max Area of Island", id: 695, d: "med" },
+                { n: "Rotting Oranges", id: 994, d: "med" },
+              ],
+            },
+            {
+              label: "Graph structure & ordering",
+              problems: [
+                { n: "Clone Graph", id: 133, d: "med" },
+                { n: "Course Schedule", id: 207, d: "med" },
+                { n: "Course Schedule II", id: 210, d: "med" },
+                { n: "Pacific Atlantic Water Flow", id: 417, d: "med" },
+              ],
+            },
+            {
+              label: "Weighted & shortest paths",
+              problems: [
+                { n: "Network Delay Time", id: 743, d: "med" },
+                { n: "Cheapest Flights Within K Stops", id: 787, d: "med" },
+              ],
+            },
+            {
+              label: "Stretch",
+              problems: [
+                { n: "Word Ladder", id: 127, d: "hard" },
+                {
+                  n: "Longest Increasing Path in a Matrix",
+                  id: 329,
+                  d: "hard",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          topic: "Arrays & Hashing \u2014 Interview Core",
+          note: "The bread and butter of FAANG screens. Hash maps turn O(n\u00b2) into O(n).",
+          groups: [
+            {
+              label: "Essentials",
+              problems: [
+                { n: "Two Sum", id: 1, d: "easy" },
+                { n: "Contains Duplicate", id: 217, d: "easy" },
+                { n: "Valid Anagram", id: 242, d: "easy" },
+                { n: "Majority Element", id: 169, d: "easy" },
+              ],
+            },
+            {
+              label: "Classic mediums",
+              problems: [
+                { n: "Group Anagrams", id: 49, d: "med" },
+                { n: "Top K Frequent Elements", id: 347, d: "med" },
+                { n: "Product of Array Except Self", id: 238, d: "med" },
+                { n: "Longest Consecutive Sequence", id: 128, d: "med" },
+                { n: "Valid Sudoku", id: 36, d: "med" },
+                { n: "Sort Colors", id: 75, d: "med" },
+              ],
+            },
+          ],
+        },
+        {
+          topic: "Two Pointers & Sliding Window \u2014 Interview Core",
+          note: "Shrink the search space instead of brute-forcing it. Extremely common in phone screens.",
+          groups: [
+            {
+              label: "Two pointers",
+              problems: [
+                { n: "Valid Palindrome", id: 125, d: "easy" },
+                { n: "Two Sum II \u2014 Sorted Array", id: 167, d: "med" },
+                { n: "3Sum", id: 15, d: "med" },
+                { n: "Container With Most Water", id: 11, d: "med" },
+              ],
+            },
+            {
+              label: "Sliding window",
+              problems: [
+                { n: "Best Time to Buy and Sell Stock", id: 121, d: "easy" },
+                {
+                  n: "Longest Substring Without Repeating Characters",
+                  id: 3,
+                  d: "med",
+                },
+                {
+                  n: "Longest Repeating Character Replacement",
+                  id: 424,
+                  d: "med",
+                },
+              ],
+            },
+            {
+              label: "Stretch",
+              problems: [
+                { n: "Minimum Window Substring", id: 76, d: "hard" },
+                { n: "Trapping Rain Water", id: 42, d: "hard" },
+              ],
+            },
+          ],
+        },
+        {
+          topic: "Stack \u2014 Interview Core",
+          note: "If the problem mentions matching, nesting, or 'previous greater', think stack.",
+          groups: [
+            {
+              label: "Foundations",
+              problems: [
+                { n: "Valid Parentheses", id: 20, d: "easy" },
+                { n: "Implement Queue using Stacks", id: 232, d: "easy" },
+                { n: "Min Stack", id: 155, d: "med" },
+              ],
+            },
+            {
+              label: "Monotonic & evaluation",
+              problems: [
+                { n: "Evaluate Reverse Polish Notation", id: 150, d: "med" },
+                { n: "Daily Temperatures", id: 739, d: "med" },
+              ],
+            },
+            {
+              label: "Stretch",
+              problems: [
+                { n: "Largest Rectangle in Histogram", id: 84, d: "hard" },
+              ],
+            },
+          ],
+        },
+        {
+          topic: "Binary Search \u2014 Interview Core",
+          note: "Not just sorted arrays \u2014 binary search the answer space itself.",
+          groups: [
+            {
+              label: "Foundations",
+              problems: [
+                { n: "Binary Search", id: 704, d: "easy" },
+                { n: "Search a 2D Matrix", id: 74, d: "med" },
+              ],
+            },
+            {
+              label: "Rotated & answer-space",
+              problems: [
+                {
+                  n: "Find Minimum in Rotated Sorted Array",
+                  id: 153,
+                  d: "med",
+                },
+                { n: "Search in Rotated Sorted Array", id: 33, d: "med" },
+                { n: "Koko Eating Bananas", id: 875, d: "med" },
+              ],
+            },
+            {
+              label: "Stretch",
+              problems: [
+                { n: "Median of Two Sorted Arrays", id: 4, d: "hard" },
+              ],
+            },
+          ],
+        },
+        {
+          topic: "Linked Lists \u2014 Interview Core",
+          note: "Pointer manipulation under pressure. Draw boxes and arrows; never code blind.",
+          groups: [
+            {
+              label: "Foundations",
+              problems: [
+                { n: "Linked List Cycle", id: 141, d: "easy" },
+                { n: "Remove Nth Node From End", id: 19, d: "med" },
+                { n: "Add Two Numbers", id: 2, d: "med" },
+                { n: "Reorder List", id: 143, d: "med" },
+              ],
+            },
+            {
+              label: "FAANG favorites",
+              problems: [
+                { n: "Copy List with Random Pointer", id: 138, d: "med" },
+                { n: "LRU Cache", id: 146, d: "med" },
+              ],
+            },
+            {
+              label: "Stretch",
+              problems: [{ n: "Merge K Sorted Lists", id: 23, d: "hard" }],
+            },
+          ],
+        },
+        {
+          topic: "Heap, Greedy & Intervals \u2014 Interview Core",
+          note: "Scheduling, top-K, and interval merging \u2014 the practical patterns of system-ish questions.",
+          groups: [
+            {
+              label: "Heap / Top-K",
+              problems: [
+                { n: "Kth Largest Element in an Array", id: 215, d: "med" },
+                { n: "K Closest Points to Origin", id: 973, d: "med" },
+                { n: "Task Scheduler", id: 621, d: "med" },
+              ],
+            },
+            {
+              label: "Intervals",
+              problems: [
+                { n: "Merge Intervals", id: 56, d: "med" },
+                { n: "Insert Interval", id: 57, d: "med" },
+                { n: "Non-overlapping Intervals", id: 435, d: "med" },
+              ],
+            },
+            {
+              label: "Greedy",
+              problems: [
+                { n: "Jump Game", id: 55, d: "med" },
+                { n: "Gas Station", id: 134, d: "med" },
+              ],
+            },
+          ],
+        },
+      ];
+
+      const STORE_KEY = "lc_ladder_dilan_v1";
+      let solved = {};
+
+      function load() {
+        // In-memory only fallback; persistence handled below if available
+        try {
+          const raw = localStorage.getItem(STORE_KEY);
+          if (raw) solved = JSON.parse(raw);
+        } catch (e) {
+          solved = {};
+        }
+      }
+
+      // ---------- Rating & titles (chess-style) ----------
+      const PTS = { easy: 8, med: 20, hard: 40 };
+      const BASE_RATING = 400;
+      // Titles unlock as a fraction of ALL available points, so adding
+      // future ladders automatically rebalances the climb.
+      const TITLES = [
+        [0.0, "Unrated", "\u2659"], // white pawn
+        [0.08, "Novice", "\u265F"], // black pawn
+        [0.2, "Club Player", "\u265E"], // knight
+        [0.35, "Expert", "\u265D"], // bishop
+        [0.5, "Candidate Master", "\u265C"], // rook
+        [0.65, "FIDE Master", "\u265B"], // queen
+        [0.82, "International Master", "\u265A"], // king
+        [0.96, "Grandmaster", "\uD83D\uDC51"], // crown
+      ];
+
+      const META_KEY = "lc_ladder_dilan_meta_v1";
+      let meta = { streak: 0, lastDay: null, titleIdx: 0 };
+      try {
+        const m = localStorage.getItem(META_KEY);
+        if (m) meta = Object.assign(meta, JSON.parse(m));
+      } catch (e) {}
+      function saveMeta() {
+        try {
+          localStorage.setItem(META_KEY, JSON.stringify(meta));
+        } catch (e) {}
+      }
+
+      function allPoints() {
+        let max = 0,
+          mine = 0;
+        DATA.forEach((t, ti) =>
+          t.groups.forEach((g, gi) =>
+            g.problems.forEach((p, pi) => {
+              const v = PTS[p.d] || 0;
+              max += v;
+              if (solved[keyFor(ti, gi, pi)]) mine += v;
+            }),
+          ),
+        );
+        return { mine, max };
+      }
+
+      function titleFor(frac) {
+        let idx = 0;
+        TITLES.forEach(([f], i) => {
+          if (frac >= f) idx = i;
+        });
+        return idx;
+      }
+
+      function todayStr() {
+        const d = new Date();
+        return (
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0")
+        );
+      }
+      function yesterdayStr() {
+        const d = new Date();
+        d.setDate(d.getDate() - 1);
+        return (
+          d.getFullYear() +
+          "-" +
+          String(d.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(d.getDate()).padStart(2, "0")
+        );
+      }
+
+      function bumpStreak() {
+        const today = todayStr();
+        if (meta.lastDay === today) return; // already counted today
+        meta.streak = meta.lastDay === yesterdayStr() ? meta.streak + 1 : 1;
+        meta.lastDay = today;
+        saveMeta();
+      }
+
+      function popPoints(ev, pts, negative) {
+        const el = document.createElement("span");
+        el.className = "pts-pop" + (negative ? " neg" : "");
+        el.textContent = (negative ? "\u2212" : "+") + pts;
+        el.style.left = ev.pageX + 10 + "px";
+        el.style.top = ev.pageY - 18 + "px";
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 900);
+      }
+
+      let lastRating = null;
+      let toastTimer = null;
+      function showToast(msg, demote) {
+        const t = document.getElementById("toast");
+        t.classList.toggle("demote", !!demote);
+        document.getElementById("toastMsg").textContent = msg;
+        t.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove("show"), 3200);
+      }
+
+      function renderMeta() {
+        const { mine, max } = allPoints();
+        const frac = max ? mine / max : 0;
+        const rating = BASE_RATING + mine;
+        const idx = titleFor(frac);
+
+        const rEl = document.getElementById("ratingNum");
+        rEl.textContent = rating;
+        if (lastRating !== null && rating > lastRating) {
+          rEl.classList.remove("pulse");
+          void rEl.offsetWidth; // restart animation
+          rEl.classList.add("pulse");
+        }
+        lastRating = rating;
+        document.getElementById("titleName").textContent = TITLES[idx][1];
+        const iconEl = document.getElementById("titleIcon");
+        if (iconEl.textContent !== TITLES[idx][2]) {
+          iconEl.textContent = TITLES[idx][2];
+          iconEl.classList.remove("icon-pop");
+          void iconEl.offsetWidth;
+          iconEl.classList.add("icon-pop");
+        }
+        document.getElementById("streakNum").textContent = meta.streak;
+
+        const next = TITLES[idx + 1];
+        document.getElementById("nextTitle").textContent = next
+          ? "next: " +
+            next[1] +
+            " at " +
+            (BASE_RATING + Math.ceil(next[0] * max))
+          : "\u2605 highest title reached";
+
+        if (idx > meta.titleIdx) {
+          document.getElementById("toastIcon").textContent = TITLES[idx][2];
+          showToast("Promoted to " + TITLES[idx][1] + "!");
+          meta.titleIdx = idx;
+          saveMeta();
+        } else if (idx < meta.titleIdx) {
+          document.getElementById("toastIcon").textContent = TITLES[idx][2];
+          showToast("Demoted to " + TITLES[idx][1], true);
+          meta.titleIdx = idx;
+          saveMeta();
+        }
+      }
+
+      function keyFor(topicIdx, gIdx, pIdx) {
+        return `${topicIdx}-${gIdx}-${pIdx}`;
+      }
+
+      const openTopics = new Set([0]);
+
+      function render() {
+        const wrap = document.getElementById("topics");
+        wrap.innerHTML = "";
+        let total = 0,
+          done = 0;
+
+        DATA.forEach((topic, ti) => {
+          let tTotal = 0,
+            tDone = 0;
+          const tEl = document.createElement("div");
+          tEl.className = "topic" + (openTopics.has(ti) ? " open" : "");
+
+          const head = document.createElement("div");
+          head.className = "topic-head";
+          head.innerHTML = `<span class="chev">▶</span>
       <span class="topic-name">${topic.topic}</span>
       <span class="topic-prog"><b class="tdone">0</b>/<span class="ttot">0</span></span>`;
-    head.onclick = () => tEl.classList.toggle("open");
-    tEl.appendChild(head);
+          head.onclick = () => {
+            if (openTopics.has(ti)) openTopics.delete(ti);
+            else openTopics.add(ti);
+            tEl.classList.toggle("open");
+          };
+          tEl.appendChild(head);
 
-    const body = document.createElement("div");
-    body.className = "topic-body";
+          const body = document.createElement("div");
+          body.className = "topic-body";
 
-    topic.groups.forEach((g, gi) => {
-      const gl = document.createElement("div");
-      gl.className = "group-label";
-      gl.textContent = g.label;
-      body.appendChild(gl);
+          topic.groups.forEach((g, gi) => {
+            const gl = document.createElement("div");
+            gl.className = "group-label";
+            gl.textContent = g.label;
+            body.appendChild(gl);
 
-      g.problems.forEach((p, pi) => {
-        total++; tTotal++;
-        const k = keyFor(ti, gi, pi);
-        const isDone = !!solved[k];
-        if (isDone) { done++; tDone++; }
+            g.problems.forEach((p, pi) => {
+              total++;
+              tTotal++;
+              const k = keyFor(ti, gi, pi);
+              const isDone = !!solved[k];
+              if (isDone) {
+                done++;
+                tDone++;
+              }
 
-        const row = document.createElement("div");
-        row.className = "row" + (isDone ? " done" : "");
-        const dClass = p.d === "easy" ? "t-easy" : p.d === "med" ? "t-med" : "t-hard";
-        const dLabel = p.d === "easy" ? "Easy" : p.d === "med" ? "Medium" : "Hard";
-        row.innerHTML = `
+              const row = document.createElement("div");
+              row.className = "row" + (isDone ? " done" : "");
+              const dClass =
+                p.d === "easy" ? "t-easy" : p.d === "med" ? "t-med" : "t-hard";
+              const dLabel =
+                p.d === "easy" ? "Easy" : p.d === "med" ? "Medium" : "Hard";
+              row.innerHTML = `
           <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="#0f1115" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
           <span class="pname">${p.n}</span>
           <span class="tag ${dClass}">${dLabel}</span>
           <a class="lc" href="https://leetcode.com/problemset/?search=${encodeURIComponent(p.n)}" target="_blank" rel="noopener" title="Open on LeetCode">↗</a>
         `;
-        row.querySelector(".lc").onclick = (e) => e.stopPropagation();
-        row.onclick = () => {
-          solved[k] = !solved[k];
-          save();
-          render();
-        };
-        body.appendChild(row);
-      });
-    });
+              row.querySelector(".lc").onclick = (e) => e.stopPropagation();
+              row.onclick = (ev) => {
+                const nowSolved = !solved[k];
+                solved[k] = nowSolved;
+                if (nowSolved) {
+                  bumpStreak();
+                  popPoints(ev, PTS[p.d] || 0, false);
+                } else {
+                  popPoints(ev, PTS[p.d] || 0, true);
+                }
+                save();
+                render();
+              };
+              body.appendChild(row);
+            });
+          });
 
-    tEl.appendChild(body);
-    head.querySelector(".tdone").textContent = tDone;
-    head.querySelector(".ttot").textContent = tTotal;
-    wrap.appendChild(tEl);
-  });
+          tEl.appendChild(body);
+          head.querySelector(".tdone").textContent = tDone;
+          head.querySelector(".ttot").textContent = tTotal;
+          wrap.appendChild(tEl);
+        });
 
-  document.getElementById("doneCount").textContent = done;
-  document.getElementById("totalCount").textContent = total;
-  document.getElementById("overallBar").style.width = total ? (done/total*100) + "%" : "0%";
-}
+        document.getElementById("doneCount").textContent = done;
+        document.getElementById("totalCount").textContent = total;
+        document.getElementById("overallBar").style.width = total
+          ? (done / total) * 100 + "%"
+          : "0%";
+        renderMeta();
+      }
 
-function save() {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(solved)); } catch(e) {}
-}
+      function save() {
+        try {
+          localStorage.setItem(STORE_KEY, JSON.stringify(solved));
+        } catch (e) {}
+      }
 
-document.getElementById("resetBtn").onclick = () => {
-  solved = {};
-  save();
-  render();
-};
+      let resetArmed = false,
+        resetTimer = null;
+      const resetBtn = document.getElementById("resetBtn");
+      resetBtn.onclick = () => {
+        if (!resetArmed) {
+          resetArmed = true;
+          resetBtn.textContent = "Sure? Click again";
+          resetBtn.style.color = "var(--hard)";
+          resetBtn.style.borderColor = "var(--hard)";
+          resetTimer = setTimeout(() => {
+            resetArmed = false;
+            resetBtn.textContent = "Reset all";
+            resetBtn.style.color = "";
+            resetBtn.style.borderColor = "";
+          }, 3000);
+          return;
+        }
+        clearTimeout(resetTimer);
+        resetArmed = false;
+        resetBtn.textContent = "Reset all";
+        resetBtn.style.color = "";
+        resetBtn.style.borderColor = "";
+        solved = {};
+        meta.titleIdx = 0;
+        saveMeta();
+        save();
+        render();
+      };
 
-load();
-render();
-</script>
-</body>
+      load();
+      render();
+    </script>
+  </body>
 </html>
